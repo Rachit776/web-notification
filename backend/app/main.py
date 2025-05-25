@@ -22,6 +22,9 @@ ROUTING_KEY = 'notification_route'
 # Get absolute path to credentials file
 CRED_PATH = str(Path(__file__).parent.parent / "firebase-credentials.json")
 
+# Get frontend URLs from environment variable
+FRONTEND_URLS = os.getenv('FRONTEND_URLS', 'http://localhost:3000').split(',')
+
 app = FastAPI(
     title="Web Notification System API",
     description="""
@@ -48,7 +51,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=FRONTEND_URLS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -4,7 +4,7 @@ import { requestNotificationPermission, getFCMToken, onMessageListener } from '.
 const subscribeButton = document.getElementById('subscribeBtn');
 const statusText = document.getElementById('status');
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL;;
 
 let isSubscribed = localStorage.getItem('fcmToken') !== null;
 updateButtonState();
