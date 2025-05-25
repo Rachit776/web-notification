@@ -48,6 +48,22 @@ app = FastAPI(
     },
 )
 
+@app.get("/")
+async def root():
+    """
+    Root endpoint that provides API information and health check
+    """
+    return {
+        "status": "healthy",
+        "service": "Web Notification System API",
+        "version": "1.0.0",
+        "endpoints": {
+            "root": "/",
+            "register_device": "/devices/register",
+            "publish_notification": "/notifications/publish"
+        }
+    }
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -275,4 +291,6 @@ async def publish_notification(notification: Notification):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Get port from environment variable for Render deployment
+    port = int(os.getenv('PORT', 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

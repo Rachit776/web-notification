@@ -1,0 +1,30 @@
+services:
+  # Web Service
+  - type: web
+    name: web-notification-api
+    runtime: python3.9
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: FRONTEND_URLS
+        sync: false
+      - key: CLOUDAMQP_URL
+        sync: false
+      - key: FIREBASE_CRED_PATH
+        value: /etc/secrets/firebase-credentials.json
+    
+  # Background Worker for RabbitMQ Consumer
+  - type: worker
+    name: web-notification-consumer
+    runtime: python3.9
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app/consumer.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: CLOUDAMQP_URL
+        sync: false
+      - key: FIREBASE_CRED_PATH
+        value: /etc/secrets/firebase-credentials.json 
