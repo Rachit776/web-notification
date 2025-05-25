@@ -1,7 +1,10 @@
 services:
-  # Web Service
+  # Web Service for FastAPI Backend
   - type: web
     name: web-notification-api
+    env: python
+    region: singapore
+    plan: free
     runtime: python3.9
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -14,10 +17,14 @@ services:
         sync: false
       - key: FIREBASE_CRED_PATH
         value: /etc/secrets/firebase-credentials.json
+    autoDeploy: true
     
   # Background Worker for RabbitMQ Consumer
   - type: worker
     name: web-notification-consumer
+    env: python
+    region: singapore
+    plan: free
     runtime: python3.9
     buildCommand: pip install -r requirements.txt
     startCommand: python app/consumer.py
@@ -27,4 +34,5 @@ services:
       - key: CLOUDAMQP_URL
         sync: false
       - key: FIREBASE_CRED_PATH
-        value: /etc/secrets/firebase-credentials.json 
+        value: /etc/secrets/firebase-credentials.json
+    autoDeploy: true 
