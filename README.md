@@ -57,24 +57,19 @@ A real-time web notification system built with FastAPI, RabbitMQ, and Firebase C
 cd backend
 ```
 
-2. Create virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Create `.env` file:
+3. Create `.env` file:
 ```env
 FIREBASE_CRED_PATH=firebase-credentials.json
 CLOUDAMQP_URL=your_cloudamqp_url
+FRONTEND_URL=localhost:3000
 ```
 
-5. Place Firebase credentials in `firebase-credentials.json`
+4. Place Firebase credentials in `firebase-credentials.json`
 
 ### Frontend Setup
 
@@ -91,6 +86,8 @@ npm install
 3. Create `.env` file:
 ```env
 VITE_FIREBASE_CONFIG=your_firebase_config
+VITE_BACKEND_API_URL=http://localhost:8000
+VITE_FIREBASE_VAPID_KEY=
 ```
 
 ## 🚀 Running the Application
