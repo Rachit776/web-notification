@@ -119,7 +119,91 @@ The application will be available at:
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
 
-## 📡 API Endpoints
+## 🐳 Docker Deployment
+
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Configuration
+Before running with Docker, ensure you have the following files properly configured:
+
+1. Backend configuration:
+   - `backend/.env` file with your environment variables
+   - `backend/firebase-credentials.json` with your Firebase credentials
+
+2. Frontend configuration:
+   - `frontend/.env` file with your environment variables
+
+### Running with Docker
+
+1. Build and start all services:
+```bash
+docker-compose up --build
+```
+
+2. To run in detached mode (background):
+```bash
+docker-compose up --build -d
+```
+
+### Docker Services
+The docker-compose configuration includes three services:
+- `backend`: FastAPI application (http://localhost:8000)
+- `consumer`: RabbitMQ message consumer
+- `frontend`: Vite development server (http://localhost:5173)
+
+### Useful Docker Commands
+
+1. View service logs:
+```bash
+# All services
+docker-compose logs
+
+# Specific service
+docker-compose logs backend
+docker-compose logs consumer
+docker-compose logs frontend
+
+# Follow logs in real-time
+docker-compose logs -f
+```
+
+2. Stop all services:
+```bash
+docker-compose down
+```
+
+3. Restart a specific service:
+```bash
+docker-compose restart backend
+docker-compose restart consumer
+docker-compose restart frontend
+```
+
+4. Check service status:
+```bash
+docker-compose ps
+```
+
+### Troubleshooting Docker Deployment
+
+1. If services fail to start:
+   - Check the logs using `docker-compose logs`
+   - Ensure all required environment variables are set
+   - Verify that `firebase-credentials.json` is present in the backend directory
+
+2. If frontend can't connect to backend:
+   - Check if backend service is running (`docker-compose ps`)
+   - Verify the API URL in frontend environment variables
+   - Check backend logs for any errors
+
+3. If consumer service fails:
+   - Verify RabbitMQ connection string in backend `.env`
+   - Check consumer logs for detailed error messages
+   - Ensure Firebase credentials are properly configured
+
+## �� API Endpoints
 
 ### Register Device
 
