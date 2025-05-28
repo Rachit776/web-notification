@@ -14,19 +14,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
-export const requestNotificationPermission = async () => {
-    try {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            return true;
-        }
-        throw new Error('Notification permission denied');
-    } catch (err) {
-        console.error('Error requesting notification permission:', err);
-        throw err;
-    }
-};
-
 export const getFCMToken = async () => {
     try {
         const currentToken = await getToken(messaging, {
@@ -38,6 +25,19 @@ export const getFCMToken = async () => {
         throw new Error('No token available');
     } catch (err) {
         console.error('Error getting FCM token:', err);
+        throw err;
+    }
+};
+
+export const requestNotificationPermission = async () => {
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            return true;
+        }
+        throw new Error('Notification permission denied');
+    } catch (err) {
+        console.error('Error requesting notification permission:', err);
         throw err;
     }
 };

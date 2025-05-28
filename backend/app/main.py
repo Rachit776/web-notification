@@ -264,27 +264,7 @@ async def publish_notification(notification: Notification):
             except Exception as e:
                 print(f"Error publishing to RabbitMQ: {e}")
                 raise
-        
-        # CloudAMQP not available or publishing failed, send directly via FCM
-        if not fcm_tokens:
-            raise HTTPException(status_code=400, detail="No registered devices")
-        
-        message = messaging.MulticastMessage(
-            notification=messaging.Notification(
-                title=notification.title,
-                body=notification.body,
-                image=notification.image_url
-            ),
-            data=notification.data,
-            tokens=list(fcm_tokens)
-        )
-        
-        response = messaging.send_multicast(message)
-        return {
-            "status": "success", 
-            "message": f"Notification sent directly. Success: {response.success_count}, Failure: {response.failure_count}"
-        }
-            
+
     except Exception as e:
         print(f"Error in publish_notification: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
